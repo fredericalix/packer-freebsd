@@ -1,0 +1,81 @@
+{
+  "builders": [
+    {
+      "flavor": "b2-7",
+      "image_name": "freebsd-current_final",
+      "image_visibility": "private",
+      "insecure": "false",
+      "networks": [
+        "<YOUR UUID PUBLIC NET>"
+      ],
+      "source_image_name": "freebsd-current_phase-1",
+      "ssh_ip_version": "4",
+      "ssh_username": "freebsd",
+      "ssh_agent_auth": "true",
+      "type": "openstack"
+    }
+  ],
+  "provisioners": [
+    {
+      "destination": "/var/tmp/cloud-init.sh",
+      "source": "files/cloud-init.sh",
+      "type": "file"
+    },
+    {
+      "type": "shell",
+      "script": "files/build-kernel.sh",
+      "timeout": "24000s"
+    },
+    {
+      "destination": "/var/tmp/packer",
+      "source": "/var/tmp/log/",
+      "direction": "download",
+      "type": "file"
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo mv /var/tmp/cloud-init.sh /etc/rc.local "]
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo chown root:wheel /etc/rc.local"]
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo chmod u+x /etc/rc.local"]
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo pkg install -y jq"]
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo rm -rf /var/tmp/*"]
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo rm /var/log/auth.log"]
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo rm /root/.history"]
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo rm /var/log/utx*"]
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo pw mod user root -w no > /dev/null"]
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo pw mod user freebsd -w no > /dev/null"]
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo rm -rf /usr/obj/usr"]
+    }
+  ]
+}
+
