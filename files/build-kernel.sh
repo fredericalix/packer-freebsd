@@ -8,7 +8,7 @@ echo resize
 sudo gpart recover da0
 sudo gpart resize -i 2 /dev/da0
 sudo zpool set autoexpand=on zroot
-sudo zpool online -e zroot da0p2
+sudo zpool online -e zroot gpt/zfs0
 echo resize OK
 
 #BUILD KERNEL

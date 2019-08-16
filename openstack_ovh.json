@@ -6,7 +6,7 @@
       "image_visibility": "private",
       "insecure": "false",
       "networks": [
-        "<YOUR UUID PUBLIC NET>"
+        "b007ac8f-373e-4eaa-9b6b-7f8e49ba3ff9"
       ],
       "source_image_name": "freebsd-current_phase-1",
       "ssh_ip_version": "4",
@@ -20,6 +20,10 @@
       "destination": "/var/tmp/cloud-init.sh",
       "source": "files/cloud-init.sh",
       "type": "file"
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo pkg install -y git"]
     },
     {
       "type": "shell",
@@ -78,4 +82,3 @@
     }
   ]
 }
-

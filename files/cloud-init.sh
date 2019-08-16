@@ -7,7 +7,7 @@ export PATH
 gpart recover da0
 gpart resize -i 2 /dev/da0
 zpool set autoexpand=on zroot
-zpool online -e zroot da0p2
+zpool online -e zroot gpt/zfs0
 
 #set_key
 fetch http://169.254.169.254/openstack/latest/meta_data.json -q -o - | jq -r '.keys[] |.data' > /home/freebsd/.ssh/authorized_keys
